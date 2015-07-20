@@ -47,7 +47,9 @@ define(function(require, exports, module) {
 			load();
 		});
 
-		plugin.on("unload", function() {});
+		plugin.on("unload", function() {
+			datagrid = null;
+		});
 
 		plugin.freezePublicAPI({});
 
@@ -75,17 +77,13 @@ define(function(require, exports, module) {
 
 			step.on("draw", function(e) {
 				ui.insertHtml(e.html, require("text!./step1.html"), step);
-				afterHtmlStep1(TIMEOUT_DURATION_FOR_APPEND_FIX);
-			});
+				var div = e.html.querySelector("#" + STEP1_FORM_DIV_WRAPPER_ID);
+				afterHtmlStep1(div);
+			}); 
 
 			return step;
 
-			function afterHtmlStep1(wait) {
-				if (wait) {
-					return setTimeout(afterHtmlStep1, wait);
-				}
-				var div = document.getElementById(STEP1_FORM_DIV_WRAPPER_ID);
-				console.log('result of document.getgetElementById("' + STEP1_FORM_DIV_WRAPPER_ID + '"', div);
+			function afterHtmlStep1(div) {
 				var select_elem_len = 5;
 				var items = [];
 				for (var i = 0; i < select_elem_len; i++) {
@@ -124,17 +122,13 @@ define(function(require, exports, module) {
 
 			step.on("draw", function(e) {
 				ui.insertHtml(e.html, require("text!./step2.html"), step);
-				afterHtmlStep2(TIMEOUT_DURATION_FOR_APPEND_FIX);
+				var div = e.html.querySelector("#" + STEP2_FORM_DIV_WRAPPER_ID);
+				afterHtmlStep2(div);
 			});
 
 			return step;
 
-			function afterHtmlStep2(wait) {
-				if (wait) {
-					return setTimeout(afterHtmlStep2, wait);
-				}
-				var div = document.getElementById(STEP2_FORM_DIV_WRAPPER_ID);
-				console.log('result of document.getgetElementById("' + STEP2_FORM_DIV_WRAPPER_ID + '"', div);
+			function afterHtmlStep2(div) {
 				datagrid = new Datagrid({
 					container: div,
 					enableCheckboxes: true,
